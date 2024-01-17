@@ -5,13 +5,18 @@ material-version = "1.11.0"
 constraintlayout-version = "1.11.0"
 agp-version = "8.2.0"
 kotlin-version = "1.9.21"
+dagger-version = "2.48.1"
+ksp-version = "1.9.22-1.0.16"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx-version" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat-version" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material-version" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout-version" }
+dagger-core = { group = "com.google.dagger", name = "dagger", version.ref = "dagger-version" }
+dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger-version" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp-version" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-version" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp-version" }

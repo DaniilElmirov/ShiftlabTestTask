@@ -11,6 +11,12 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+
+    versionCatalogs {
+        create("libs") {
+            from(files("libs.toml"))
+        }
+    }
 }
 
 rootProject.name = "ShiftlabTestTask"

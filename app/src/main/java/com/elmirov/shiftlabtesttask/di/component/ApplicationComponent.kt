@@ -6,6 +6,7 @@ import com.elmirov.shiftlabtesttask.di.annotation.ApplicationScope
 import com.elmirov.shiftlabtesttask.di.module.DataModule
 import com.elmirov.shiftlabtesttask.di.module.ViewModelModule
 import com.elmirov.shiftlabtesttask.presentation.activity.MainActivity
+import com.elmirov.shiftlabtesttask.ui.GreetingFragment
 import dagger.BindsInstance
 import dagger.Component
 
@@ -21,6 +22,8 @@ interface ApplicationComponent {
     fun inject(application: ShiftlabApplication)
 
     fun inject(activity: MainActivity)
+
+    fun inject(fragment: GreetingFragment)
 
     @Component.Factory
     interface Factory {

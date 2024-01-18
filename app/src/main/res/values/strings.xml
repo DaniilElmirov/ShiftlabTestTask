@@ -3,4 +3,10 @@
     <string name="greeting">Приветствие</string>
     <string name="hello_with_name">Привет, %s</string>
     <string name="ok">Ага</string>
+    <string name="registration">Регистрация</string>
+    <string name="enter_name">Введите имя</string>
+    <string name="enter_second_name">Введите фамилию</string>
+    <string name="enter_date_of_birth">Введите дату рождения</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="confirm_password">Подтвердите пароль</string>
 </resources>

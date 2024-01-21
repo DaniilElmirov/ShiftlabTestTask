@@ -12,6 +12,6 @@
     <string name="name_help">Имя должно быть длиннее 2х символов</string>
     <string name="second_name_help">Фамилия должна быть длиннее 2х символов</string>
     <string name="date_of_birth_help">Введите корректную дату</string>
-    <string name="password_help">Пароль не должен содержать пробел \nДолжен содержать 1 цифру и по 1 букве каждого регистра</string>
+    <string name="password_help">Минимум 1 цифра, 1 буква каждого регистра.\nБез пробелов</string>
     <string name="repeated_password_help">Пароли должны совпадать</string>
 </resources>

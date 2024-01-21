@@ -1,8 +1,10 @@
 package com.elmirov.shiftlabtesttask.presentation.registration.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.elmirov.shiftlabtesttask.domain.entity.User
 import com.elmirov.shiftlabtesttask.domain.usecase.RegistrationUseCase
+import com.elmirov.shiftlabtesttask.presentation.registration.state.ErrorType
 import com.elmirov.shiftlabtesttask.presentation.registration.state.RegistrationState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,21 +23,6 @@ class RegistrationViewModel @Inject constructor(
     private val _state = MutableStateFlow<RegistrationState>(RegistrationState.Initial)
     val state = _state.asStateFlow()
 
-    private val _isCorrectName = MutableStateFlow(true)
-    val isCorrectName = _isCorrectName.asStateFlow()
-
-    private val _isCorrectSecondName = MutableStateFlow(true)
-    val isCorrectSecondName = _isCorrectSecondName.asStateFlow()
-
-    private val _isCorrectDateOfBirth = MutableStateFlow(true)
-    val isCorrectDateOfBirth = _isCorrectDateOfBirth.asStateFlow()
-
-    private val _isCorrectPassword = MutableStateFlow(true)
-    val isCorrectPassword = _isCorrectPassword.asStateFlow()
-
-    private val _isPasswordConfirmed = MutableStateFlow(true)
-    val isPasswordConfirmed = _isPasswordConfirmed.asStateFlow()
-
     fun registration(
         name: String,
         secondName: String,
@@ -51,37 +38,46 @@ class RegistrationViewModel @Inject constructor(
             isPasswordConfirmed(password, repeatedPassword)
         ) {
             val user = User(name, secondName, dateOfBirth, password)
+            Log.d("USER", user.toString())
             registrationUseCase(user)
         }
     }
 
+    fun reset() {
+        _state.value = RegistrationState.Initial
+    }
+
+    fun allFilled(filled: Boolean) {
+        if (filled)
+            _state.value = RegistrationState.Filled
+        else
+            _state.value = RegistrationState.Initial
+    }
+
     private fun isValidName(name: String): Boolean {
         return if (name.length >= MIN_NAME_LENGTH) {
-            _isCorrectName.value = true
             true
         } else {
-            _isCorrectName.value = false
+            _state.value = RegistrationState.InputError(ErrorType.Name)
             false
         }
     }
 
     private fun isValidSecondName(secondName: String): Boolean {
         return if (secondName.length >= MIN_SECOND_NAME_LENGTH) {
-            _isCorrectSecondName.value = true
             true
         } else {
-            _isCorrectSecondName.value = false
+            _state.value = RegistrationState.InputError(ErrorType.SecondName)
             false
         }
     }
 
     private fun isValidDate(dateOfBirth: String): Boolean {
         //TODO() переделать правила валидации
-        return if (dateOfBirth.length == DATE_OF_BIRTH_LENGTH) {
-            _isCorrectDateOfBirth.value = true
+        return if (dateOfBirth.length == 1) {
             true
         } else {
-            _isCorrectDateOfBirth.value = false
+            _state.value = RegistrationState.InputError(ErrorType.DateOfBirth)
             false
         }
     }
@@ -99,41 +95,19 @@ class RegistrationViewModel @Inject constructor(
             password.contains(bigLetter) &&
             !password.contains(space)
         ) {
-            _isCorrectPassword.value = true
             true
         } else {
-            _isCorrectPassword.value = false
+            _state.value = RegistrationState.InputError(ErrorType.Password)
             false
         }
     }
 
     private fun isPasswordConfirmed(password: String, repeatedPassword: String): Boolean {
         return if (password == repeatedPassword) {
-            _isPasswordConfirmed.value = true
             true
         } else {
-            _isPasswordConfirmed.value = false
+            _state.value = RegistrationState.InputError(ErrorType.RepeatedPassword)
             false
         }
-    }
-
-    fun resetIsCorrectName() {
-        _isCorrectName.value = true
-    }
-
-    fun resetIsCorrectSecondName() {
-        _isCorrectSecondName.value = true
-    }
-
-    fun resetIsCorrectDateOfBirth() {
-        _isCorrectDateOfBirth.value = true
-    }
-
-    fun resetIsCorrectPassword() {
-        _isCorrectPassword.value = true
-    }
-
-    fun resetIsPasswordConfirmed() {
-        _isPasswordConfirmed.value = true
     }
 }

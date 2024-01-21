@@ -10,10 +10,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.elmirov.shiftlabtesttask.R
 import com.elmirov.shiftlabtesttask.ShiftlabApplication
 import com.elmirov.shiftlabtesttask.databinding.FragmentRegistrationBinding
+import com.elmirov.shiftlabtesttask.presentation.registration.state.ErrorType
 import com.elmirov.shiftlabtesttask.presentation.registration.state.RegistrationState
 import com.elmirov.shiftlabtesttask.presentation.registration.viewmodel.RegistrationViewModel
 import com.elmirov.shiftlabtesttask.presentation.viewmodelfactory.ViewModelFactory
-import com.elmirov.shiftlabtesttask.utill.addTextWatcher
+import com.elmirov.shiftlabtesttask.utill.MultiTextWatcher
 import com.elmirov.shiftlabtesttask.utill.collectLifecycleFlow
 import javax.inject.Inject
 
@@ -51,8 +52,9 @@ class RegistrationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        addTextChangeListeners()
-        subViewModel()
+        setOnClickListeners()
+        addTextChangedListeners()
+        applyState()
     }
 
     override fun onDestroy() {
@@ -60,55 +62,115 @@ class RegistrationFragment : Fragment() {
         _binding = null
     }
 
-    private fun subViewModel() {
-        collectLifecycleFlow(viewModel.isCorrectName) {
-            binding.name.error = if (it) null else getString(R.string.name_help)
-        }
-
-        collectLifecycleFlow(viewModel.isCorrectSecondName) {
-            binding.secondName.error = if (it) null else getString(R.string.second_name_help)
-        }
-
-        collectLifecycleFlow(viewModel.isCorrectDateOfBirth) {
-            binding.dateOfBirth.error = if (it) null else getString(R.string.date_of_birth_help)
-        }
-
-        collectLifecycleFlow(viewModel.isCorrectPassword) {
-            binding.password.error = if (it) null else getString(R.string.password_help)
-        }
-
-        collectLifecycleFlow(viewModel.isPasswordConfirmed) {
-            binding.repeatedPassword.error =
-                if (it) null else getString(R.string.repeated_password_help)
-        }
-
-        collectLifecycleFlow(viewModel.state) {
-            when (it) {
-                //TODO() переделать
-                RegistrationState.Content -> Unit
-
-                RegistrationState.Initial -> {
-                    binding.registration.setOnClickListener {
-                        viewModel.registration(
-                            name = binding.nameText.text.toString(),
-                            secondName = binding.secondNameText.text.toString(),
-                            dateOfBirth = binding.dateOfBirthText.text.toString(),
-                            password = binding.passwordText.text.toString(),
-                            repeatedPassword = binding.repeatedPasswordText.text.toString(),
-                        )
-                    }
-                }
+    private fun setOnClickListeners() {
+        with(binding) {
+            registration.setOnClickListener {
+                viewModel.registration(
+                    name = binding.nameText.text.toString(),
+                    secondName = binding.secondNameText.text.toString(),
+                    dateOfBirth = binding.dateOfBirthText.text.toString(),
+                    password = binding.passwordText.text.toString(),
+                    repeatedPassword = binding.repeatedPasswordText.text.toString(),
+                )
             }
         }
     }
 
-    private fun addTextChangeListeners() {
+    private fun addTextChangedListeners() {
+        val editTexts = listOf(
+            binding.nameText,
+            binding.secondNameText,
+            binding.passwordText,
+            binding.repeatedPasswordText,
+            binding.dateOfBirthText
+        )
+        val textWatcher = MultiTextWatcher(
+            textInputEditTexts = editTexts,
+            textChanged = {
+                viewModel.reset()
+            },
+            allFilled = {
+                viewModel.allFilled(it)
+            }
+        )
+
+        editTexts.forEach {
+            it.addTextChangedListener(textWatcher)
+        }
+    }
+
+    private fun applyState() {
+        collectLifecycleFlow(viewModel.state) {
+            when (it) {
+                RegistrationState.Initial -> applyInitialState()
+
+                RegistrationState.Filled -> applyFilledState()
+
+                is RegistrationState.InputError -> applyInputErrorState(it.type)
+            }
+        }
+    }
+
+    private fun applyInitialState() {
         with(binding) {
-            nameText.addTextChangedListener(addTextWatcher(viewModel::resetIsCorrectName))
-            secondNameText.addTextChangedListener(addTextWatcher(viewModel::resetIsCorrectSecondName))
-            dateOfBirthText.addTextChangedListener(addTextWatcher(viewModel::resetIsCorrectDateOfBirth))
-            passwordText.addTextChangedListener(addTextWatcher(viewModel::resetIsCorrectPassword))
-            repeatedPasswordText.addTextChangedListener(addTextWatcher(viewModel::resetIsPasswordConfirmed))
+            name.error = null
+            secondName.error = null
+            dateOfBirth.error = null
+            password.error = null
+            repeatedPassword.error = null
+
+            registration.isEnabled = false
+        }
+    }
+
+    private fun applyFilledState() {
+        binding.registration.isEnabled = true
+    }
+
+    private fun applyInputErrorState(type: ErrorType) {
+        with(binding) {
+
+            when (type) {
+                ErrorType.Name -> {
+                    name.error = getString(R.string.name_help)
+                    secondName.error = null
+                    dateOfBirth.error = null
+                    password.error = null
+                    repeatedPassword.error = null
+                }
+
+                ErrorType.SecondName -> {
+                    name.error = null
+                    secondName.error = getString(R.string.second_name_help)
+                    dateOfBirth.error = null
+                    binding.password.error = null
+                    binding.repeatedPassword.error = null
+                }
+
+                ErrorType.DateOfBirth -> {
+                    name.error = null
+                    secondName.error = null
+                    dateOfBirth.error = getString(R.string.date_of_birth_help)
+                    password.error = null
+                    repeatedPassword.error = null
+                }
+
+                ErrorType.Password -> {
+                    name.error = null
+                    secondName.error = null
+                    dateOfBirth.error = null
+                    password.error = getString(R.string.password_help)
+                    repeatedPassword.error = null
+                }
+
+                ErrorType.RepeatedPassword -> {
+                    name.error = null
+                    secondName.error = null
+                    dateOfBirth.error = null
+                    password.error = null
+                    repeatedPassword.error = getString(R.string.repeated_password_help)
+                }
+            }
         }
     }
 }

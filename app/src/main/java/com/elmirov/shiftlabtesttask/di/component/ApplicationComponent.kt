@@ -4,6 +4,7 @@ import android.content.Context
 import com.elmirov.shiftlabtesttask.ShiftlabApplication
 import com.elmirov.shiftlabtesttask.di.annotation.ApplicationScope
 import com.elmirov.shiftlabtesttask.di.module.DataModule
+import com.elmirov.shiftlabtesttask.di.module.NavigationModule
 import com.elmirov.shiftlabtesttask.di.module.ViewModelModule
 import com.elmirov.shiftlabtesttask.presentation.activity.MainActivity
 import com.elmirov.shiftlabtesttask.ui.GreetingFragment
@@ -16,6 +17,7 @@ import dagger.Component
     modules = [
         DataModule::class,
         ViewModelModule::class,
+        NavigationModule::class,
     ]
 )
 interface ApplicationComponent {

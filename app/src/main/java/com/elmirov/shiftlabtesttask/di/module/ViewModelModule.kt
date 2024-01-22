@@ -2,6 +2,7 @@ package com.elmirov.shiftlabtesttask.di.module
 
 import androidx.lifecycle.ViewModel
 import com.elmirov.shiftlabtesttask.di.annotation.ViewModelKey
+import com.elmirov.shiftlabtesttask.presentation.activity.MainActivityViewModel
 import com.elmirov.shiftlabtesttask.presentation.greeting.viewmodel.GreetingViewModel
 import com.elmirov.shiftlabtesttask.presentation.registration.viewmodel.RegistrationViewModel
 import dagger.Binds
@@ -20,4 +21,9 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(RegistrationViewModel::class)
     fun bindRegistrationViewModel(viewModel: RegistrationViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainActivityViewModel::class)
+    fun bindMainActivityViewModel(viewModel: MainActivityViewModel): ViewModel
 }

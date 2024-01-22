@@ -20,6 +20,10 @@ import javax.inject.Inject
 
 class RegistrationFragment : Fragment() {
 
+    companion object {
+        fun newInstance(): RegistrationFragment = RegistrationFragment()
+    }
+
     private var _binding: FragmentRegistrationBinding? = null
     private val binding
         get() = _binding!!

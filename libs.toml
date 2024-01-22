@@ -8,6 +8,7 @@ kotlin-version = "1.9.21"
 dagger-version = "2.48.1"
 ksp-version = "1.9.22-1.0.16"
 lifecycle-version = "2.5.1"
+cicerone_version = "7.1"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx-version" }
@@ -18,6 +19,7 @@ dagger-core = { group = "com.google.dagger", name = "dagger", version.ref = "dag
 dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger-version" }
 lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle-version" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-version" }
+cicerone = { group = "com.github.terrakok", name = "cicerone", version.ref = "cicerone_version" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp-version" }

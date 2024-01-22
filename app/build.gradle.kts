@@ -50,5 +50,7 @@ dependencies {
     implementation(libs.dagger.core)
     ksp(libs.dagger.compiler)
 
+    implementation(libs.cicerone)
+
     implementation(libs.bundles.lifecycle)
 }

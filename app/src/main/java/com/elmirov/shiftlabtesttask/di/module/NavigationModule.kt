@@ -25,6 +25,7 @@ class NavigationModule {
     fun provideNavigatorHolder(): NavigatorHolder = cicerone.getNavigatorHolder()
 }
 
+@Module
 interface NavigationBindModule {
 
     @Binds

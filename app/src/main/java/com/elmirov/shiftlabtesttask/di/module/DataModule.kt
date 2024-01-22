@@ -12,15 +12,15 @@ import dagger.Module
 
 @Module
 interface DataModule {
-    @ApplicationScope
     @Binds
+    @ApplicationScope
     fun bindLocalDataSource(impl: LocalDataSourceImpl): LocalDataSource
 
-    @ApplicationScope
     @Binds
+    @ApplicationScope
     fun bindRegistrationRepository(impl: RegistrationRepositoryImpl): RegistrationRepository
 
-    @ApplicationScope
     @Binds
+    @ApplicationScope
     fun bindSessionRepository(impl: SessionRepositoryImpl): SessionRepository
 }

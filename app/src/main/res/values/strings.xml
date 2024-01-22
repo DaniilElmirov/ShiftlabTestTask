@@ -11,7 +11,8 @@
     <string name="confirm_password">Подтвердите пароль</string>
     <string name="name_help">Имя должно быть длиннее 2х символов</string>
     <string name="second_name_help">Фамилия должна быть длиннее 2х символов</string>
-    <string name="date_of_birth_help">Введите корректную дату</string>
+    <string name="date_of_birth_help">Дата формата dd.mm.yyyy</string>
     <string name="password_help">Минимум 1 цифра, 1 буква каждого регистра.\nБез пробелов</string>
     <string name="repeated_password_help">Пароли должны совпадать</string>
+    <string name="future_date">Дата еще не наступила</string>
 </resources>

@@ -67,6 +67,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_20"
                 android:hint="@string/enter_date_of_birth"
+                app:endIconDrawable="@drawable/ic_calendar"
+                app:endIconMode="custom"
+                app:errorIconDrawable="@null"
+                app:helperText="@string/date_of_birth_help"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/second_name">
 
@@ -85,6 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_20"
                 android:hint="@string/enter_password"
+                app:errorIconDrawable="@null"
                 app:helperText="@string/password_help"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/date_of_birth"
@@ -105,6 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_20"
                 android:hint="@string/confirm_password"
+                app:errorIconDrawable="@null"
                 app:helperText="@string/repeated_password_help"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/password"

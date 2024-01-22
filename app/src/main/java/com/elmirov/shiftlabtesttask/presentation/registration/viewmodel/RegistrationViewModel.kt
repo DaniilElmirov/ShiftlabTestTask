@@ -8,6 +8,9 @@ import com.elmirov.shiftlabtesttask.presentation.registration.state.ErrorType
 import com.elmirov.shiftlabtesttask.presentation.registration.state.RegistrationState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(
@@ -18,7 +21,7 @@ class RegistrationViewModel @Inject constructor(
     private companion object {
         private const val MIN_NAME_LENGTH = 2
         private const val MIN_SECOND_NAME_LENGTH = 2
-        private const val DATE_OF_BIRTH_LENGTH = 10
+        private const val TARGET_DATE_FORMAT = "dd.MM.yyyy"
     }
 
     private val _state = MutableStateFlow<RegistrationState>(RegistrationState.Initial)
@@ -59,7 +62,7 @@ class RegistrationViewModel @Inject constructor(
         return if (name.length >= MIN_NAME_LENGTH) {
             true
         } else {
-            _state.value = RegistrationState.InputError(ErrorType.Name)
+            _state.value = RegistrationState.InputError(ErrorType.NameLength)
             false
         }
     }
@@ -68,18 +71,27 @@ class RegistrationViewModel @Inject constructor(
         return if (secondName.length >= MIN_SECOND_NAME_LENGTH) {
             true
         } else {
-            _state.value = RegistrationState.InputError(ErrorType.SecondName)
+            _state.value = RegistrationState.InputError(ErrorType.SecondNameLength)
             false
         }
     }
 
     private fun isValidDate(dateOfBirth: String): Boolean {
-        //TODO() переделать правила валидации
-        return if (dateOfBirth.length == 1) {
-            true
-        } else {
-            _state.value = RegistrationState.InputError(ErrorType.DateOfBirth)
+        val targetFormat = SimpleDateFormat(TARGET_DATE_FORMAT, Locale.getDefault())
+        targetFormat.isLenient = false
+
+        val parsedDate = try {
+            targetFormat.parse(dateOfBirth)
+        } catch (e: Exception) {
+            _state.value = RegistrationState.InputError(ErrorType.DateWrongFormat)
+            return false
+        }
+
+        return if (parsedDate.after(Date())) {
+            _state.value = RegistrationState.InputError(ErrorType.FutureDate)
             false
+        } else {
+            true
         }
     }
 
@@ -98,7 +110,7 @@ class RegistrationViewModel @Inject constructor(
         ) {
             true
         } else {
-            _state.value = RegistrationState.InputError(ErrorType.Password)
+            _state.value = RegistrationState.InputError(ErrorType.SimplePassword)
             false
         }
     }
@@ -107,7 +119,7 @@ class RegistrationViewModel @Inject constructor(
         return if (password == repeatedPassword) {
             true
         } else {
-            _state.value = RegistrationState.InputError(ErrorType.RepeatedPassword)
+            _state.value = RegistrationState.InputError(ErrorType.NoMatchPassword)
             false
         }
     }

@@ -16,12 +16,21 @@ import com.elmirov.shiftlabtesttask.presentation.registration.viewmodel.Registra
 import com.elmirov.shiftlabtesttask.presentation.viewmodelfactory.ViewModelFactory
 import com.elmirov.shiftlabtesttask.utill.MultiTextWatcher
 import com.elmirov.shiftlabtesttask.utill.collectLifecycleFlow
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointBackward
+import com.google.android.material.datepicker.MaterialDatePicker
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 class RegistrationFragment : Fragment() {
 
     companion object {
         fun newInstance(): RegistrationFragment = RegistrationFragment()
+
+        private const val TARGET_DATE_FORMAT = "dd.MM.yyyy"
+        private const val TAG_DATE_PICKER = "date_picker"
     }
 
     private var _binding: FragmentRegistrationBinding? = null
@@ -77,7 +86,29 @@ class RegistrationFragment : Fragment() {
                     repeatedPassword = binding.repeatedPasswordText.text.toString(),
                 )
             }
+
+            binding.dateOfBirth.setEndIconOnClickListener {
+                showDatePicker()
+            }
         }
+    }
+
+    private fun showDatePicker() {
+        val constraints =
+            CalendarConstraints.Builder().setValidator(DateValidatorPointBackward.now())
+
+        val datePicker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText(R.string.enter_date_of_birth)
+            .setCalendarConstraints(constraints.build())
+            .build()
+
+        datePicker.addOnPositiveButtonClickListener { date ->
+            val dateFormat = SimpleDateFormat(TARGET_DATE_FORMAT, Locale.getDefault())
+            val selectedDate = dateFormat.format(Date(date))
+            binding.dateOfBirthText.setText(selectedDate)
+        }
+
+        datePicker.show(parentFragmentManager, TAG_DATE_PICKER)
     }
 
     private fun addTextChangedListeners() {
@@ -135,7 +166,7 @@ class RegistrationFragment : Fragment() {
         with(binding) {
 
             when (type) {
-                ErrorType.Name -> {
+                ErrorType.NameLength -> {
                     name.error = getString(R.string.name_help)
                     secondName.error = null
                     dateOfBirth.error = null
@@ -143,7 +174,7 @@ class RegistrationFragment : Fragment() {
                     repeatedPassword.error = null
                 }
 
-                ErrorType.SecondName -> {
+                ErrorType.SecondNameLength -> {
                     name.error = null
                     secondName.error = getString(R.string.second_name_help)
                     dateOfBirth.error = null
@@ -151,7 +182,7 @@ class RegistrationFragment : Fragment() {
                     binding.repeatedPassword.error = null
                 }
 
-                ErrorType.DateOfBirth -> {
+                ErrorType.DateWrongFormat -> {
                     name.error = null
                     secondName.error = null
                     dateOfBirth.error = getString(R.string.date_of_birth_help)
@@ -159,7 +190,15 @@ class RegistrationFragment : Fragment() {
                     repeatedPassword.error = null
                 }
 
-                ErrorType.Password -> {
+                ErrorType.FutureDate -> {
+                    name.error = null
+                    secondName.error = null
+                    dateOfBirth.error = getString(R.string.future_date)
+                    password.error = null
+                    repeatedPassword.error = null
+                }
+
+                ErrorType.SimplePassword -> {
                     name.error = null
                     secondName.error = null
                     dateOfBirth.error = null
@@ -167,7 +206,7 @@ class RegistrationFragment : Fragment() {
                     repeatedPassword.error = null
                 }
 
-                ErrorType.RepeatedPassword -> {
+                ErrorType.NoMatchPassword -> {
                     name.error = null
                     secondName.error = null
                     dateOfBirth.error = null

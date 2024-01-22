@@ -12,9 +12,10 @@ sealed interface RegistrationState {
 }
 
 enum class ErrorType {
-    Name,
-    SecondName,
-    DateOfBirth,
-    Password,
-    RepeatedPassword
+    NameLength,
+    SecondNameLength,
+    DateWrongFormat,
+    FutureDate,
+    SimplePassword,
+    NoMatchPassword,
 }

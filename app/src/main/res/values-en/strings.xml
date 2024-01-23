@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">ShiftlabTestTask</string>
+    <string name="greeting">Greeting</string>
+    <string name="hello_with_name">Hello, %s</string>
+    <string name="ok">OK</string>
+    <string name="registration">Registration</string>
+    <string name="fill_all_fields">Fill all fields</string>
+    <string name="enter_name">Enter name</string>
+    <string name="enter_second_name">Enter second name</string>
+    <string name="enter_date_of_birth">Enter date of birth</string>
+    <string name="enter_password">Enter password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="name_help">Name can`t be shorter than 2 symbols</string>
+    <string name="second_name_help">Second name can`t be shorter than 2 symbols</string>
+    <string name="date_of_birth_help">Date format dd.mm.yyyy</string>
+    <string name="password_help">Include 1 number, 1 letter of each case. \nWithout spaces</string>
+    <string name="repeated_password_help">Passwords must match</string>
+    <string name="future_date_help">The date has not arrived yet</string>
+</resources>

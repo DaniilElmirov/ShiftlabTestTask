@@ -9,6 +9,7 @@ dagger-version = "2.48.1"
 ksp-version = "1.9.22-1.0.16"
 lifecycle-version = "2.5.1"
 cicerone_version = "7.1"
+datastore_version = "1.0.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx-version" }
@@ -20,6 +21,7 @@ dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", versi
 lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle-version" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-version" }
 cicerone = { group = "com.github.terrakok", name = "cicerone", version.ref = "cicerone_version" }
+datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore_version" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp-version" }

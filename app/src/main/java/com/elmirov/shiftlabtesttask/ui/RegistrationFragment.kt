@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.elmirov.shiftlabtesttask.R
@@ -143,60 +144,93 @@ class RegistrationFragment : Fragment() {
                 RegistrationState.Filled -> applyFilledState()
 
                 is RegistrationState.InputError -> applyInputErrorState(it.type)
+
+                RegistrationState.Loading -> applyLoadingState()
             }
         }
     }
 
     private fun applyInitialState() {
         with(binding) {
+            content.isVisible = true
+            progressBar.isVisible = false
+
             name.error = null
             secondName.error = null
             dateOfBirth.error = null
             password.error = null
             repeatedPassword.error = null
 
+            registration.text = getString(R.string.fill_all_fields)
             registration.isEnabled = false
         }
     }
 
     private fun applyFilledState() {
-        binding.registration.isEnabled = true
+        with(binding) {
+            content.isVisible = true
+            progressBar.isVisible = false
+
+            registration.text = getString(R.string.registration)
+            registration.isEnabled = true
+        }
     }
 
     private fun applyInputErrorState(type: ErrorType) {
         with(binding) {
+            content.isVisible = true
+            progressBar.isVisible = false
 
             when (type) {
                 ErrorType.NameLength -> {
                     val message = getString(R.string.name_help)
                     setErrorMessageTo(name, message)
+
+                    content.scrollTo(name.x.toInt(), name.y.toInt())
                 }
 
                 ErrorType.SecondNameLength -> {
                     val message = getString(R.string.second_name_help)
                     setErrorMessageTo(secondName, message)
+
+                    content.scrollTo(secondName.x.toInt(), secondName.y.toInt())
                 }
 
                 ErrorType.DateWrongFormat -> {
                     val message = getString(R.string.date_of_birth_help)
                     setErrorMessageTo(dateOfBirth, message)
+
+                    content.scrollTo(dateOfBirth.x.toInt(), dateOfBirth.y.toInt())
                 }
 
                 ErrorType.FutureDate -> {
                     val message = getString(R.string.future_date_help)
                     setErrorMessageTo(dateOfBirth, message)
+
+                    content.scrollTo(dateOfBirth.x.toInt(), dateOfBirth.y.toInt())
                 }
 
                 ErrorType.SimplePassword -> {
                     val message = getString(R.string.password_help)
                     setErrorMessageTo(password, message)
+
+                    content.scrollTo(password.x.toInt(), password.y.toInt())
                 }
 
                 ErrorType.NoMatchPassword -> {
                     val message = getString(R.string.repeated_password_help)
                     setErrorMessageTo(repeatedPassword, message)
+
+                    content.scrollTo(repeatedPassword.x.toInt(), repeatedPassword.y.toInt())
                 }
             }
+        }
+    }
+
+    private fun applyLoadingState() {
+        with(binding) {
+            content.isVisible = false
+            progressBar.isVisible = true
         }
     }
 

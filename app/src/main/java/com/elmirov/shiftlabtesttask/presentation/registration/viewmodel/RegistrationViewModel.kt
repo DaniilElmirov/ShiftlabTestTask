@@ -43,7 +43,10 @@ class RegistrationViewModel @Inject constructor(
             isValidPassword(password) &&
             isPasswordConfirmed(password, repeatedPassword)
         ) {
+            _state.value = RegistrationState.Loading
+
             val user = User(name, secondName, dateOfBirth, password)
+
             viewModelScope.launch {
                 registrationUseCase(user)
                 registrationRouter.openGreeting()

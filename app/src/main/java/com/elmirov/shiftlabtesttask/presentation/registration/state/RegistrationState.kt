@@ -4,6 +4,8 @@ sealed interface RegistrationState {
 
     data object Initial : RegistrationState
 
+    data object Loading: RegistrationState
+
     data object Filled : RegistrationState
 
     data class InputError(

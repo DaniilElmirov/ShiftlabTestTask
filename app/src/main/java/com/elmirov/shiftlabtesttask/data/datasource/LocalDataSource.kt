@@ -1,36 +1,58 @@
 package com.elmirov.shiftlabtesttask.data.datasource
 
-import android.content.Context
-import android.content.SharedPreferences
+import android.util.Log
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.emptyPreferences
+import com.elmirov.shiftlabtesttask.data.user.UserScheme
+import com.elmirov.shiftlabtesttask.domain.entity.User
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import java.io.IOException
 import javax.inject.Inject
 
 interface LocalDataSource {
-    fun register(name: String)
+    suspend fun register(user: User)
 
-    fun getName(): String?
+    fun getName(): Flow<String>
+
+    fun isAuthorized(): Flow<Boolean>
 }
 
 class LocalDataSourceImpl @Inject constructor(
-    private val context: Context,
+    private val dataStore: DataStore<Preferences>,
 ) : LocalDataSource {
 
-    companion object {
-        private const val PREFS_NAME = "name"
-        private const val USER_NAME_KEY = "user name"
+    private companion object {
+        private const val LOG_TAG = "LocalDataSourceImpl"
     }
 
-    private val sharedPreferences: SharedPreferences by lazy {
-        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    override suspend fun register(user: User) {
+        dataStore.edit {
+            it[UserScheme.NAME] = user.name
+            it[UserScheme.SECOND_NAME] = user.secondName
+            it[UserScheme.DATE_OF_BIRTH] = user.dateOfBirth
+            it[UserScheme.PASSWORD] = user.password
+        }
     }
 
-    override fun register(name: String) {
-        sharedPreferences
-            .edit()
-            .putString(USER_NAME_KEY, name)
-            .apply()
-    }
+    override fun getName(): Flow<String> =
+        dataStore.data.catch {
+            if (it is IOException) {
+                Log.e(LOG_TAG, "Error reading preferences.", it)
+                emit(emptyPreferences())
+            } else {
+                throw it
+            }
+        }.map {
+            it[UserScheme.NAME]!! //Есть проверка на авторизацию
+        }
 
-    override fun getName(): String? =
-        sharedPreferences.getString(USER_NAME_KEY, null)
+    override fun isAuthorized(): Flow<Boolean> =
+        dataStore.data.map {
+            it[UserScheme.NAME] != null
+        }
 }
 

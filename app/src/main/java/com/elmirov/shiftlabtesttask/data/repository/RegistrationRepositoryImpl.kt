@@ -8,7 +8,8 @@ import javax.inject.Inject
 class RegistrationRepositoryImpl @Inject constructor(
     private val dataSource: LocalDataSource,
 ) : RegistrationRepository {
-    override fun register(user: User) {
-        dataSource.register(name = user.name)
+
+    override suspend fun register(user: User) {
+        dataSource.register(user)
     }
 }

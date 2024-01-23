@@ -1,6 +1,7 @@
 package com.elmirov.shiftlabtesttask.presentation.registration.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.elmirov.shiftlabtesttask.domain.entity.User
 import com.elmirov.shiftlabtesttask.domain.usecase.RegistrationUseCase
 import com.elmirov.shiftlabtesttask.navigation.router.RegistrationRouter
@@ -8,6 +9,7 @@ import com.elmirov.shiftlabtesttask.presentation.registration.state.ErrorType
 import com.elmirov.shiftlabtesttask.presentation.registration.state.RegistrationState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -42,8 +44,10 @@ class RegistrationViewModel @Inject constructor(
             isPasswordConfirmed(password, repeatedPassword)
         ) {
             val user = User(name, secondName, dateOfBirth, password)
-            registrationUseCase(user)
-            registrationRouter.openGreeting()
+            viewModelScope.launch {
+                registrationUseCase(user)
+                registrationRouter.openGreeting()
+            }
         }
     }
 

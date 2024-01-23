@@ -1,21 +1,25 @@
 package com.elmirov.shiftlabtesttask.presentation.activity
 
 import androidx.lifecycle.ViewModel
-import com.elmirov.shiftlabtesttask.domain.usecase.GetUserNameUseCase
+import androidx.lifecycle.viewModelScope
+import com.elmirov.shiftlabtesttask.domain.usecase.GetAuthorizationUseCase
 import com.elmirov.shiftlabtesttask.navigation.router.MainActivityRouter
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainActivityViewModel @Inject constructor(
     private val router: MainActivityRouter,
-    private val getUserNameUseCase: GetUserNameUseCase,
-): ViewModel() {
+    private val getAuthorizationUseCase: GetAuthorizationUseCase,
+) : ViewModel() {
 
     fun navigate() {
-        val name = getUserNameUseCase()
-
-        if (name != null)
-            router.openGreeting()
-        else
-            router.openRegistration()
+        viewModelScope.launch {
+            getAuthorizationUseCase().collect {
+                if (it)
+                    router.openGreeting()
+                else
+                    router.openRegistration()
+            }
+        }
     }
 }

@@ -10,6 +10,13 @@ ksp-version = "1.9.22-1.0.16"
 lifecycle-version = "2.5.1"
 cicerone_version = "7.1"
 datastore_version = "1.0.0"
+junit-version = "5.9.2"
+mokito-kotlin-version = "4.1.0"
+mokito-junit-version = "5.3.0"
+arch-core-testing-version = "2.2.0"
+coroutines-test-version = "1.7.0"
+turbine-version = "1.0.0"
+junit5-plugin-version = "1.8.2.1"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx-version" }
@@ -22,11 +29,21 @@ lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-view
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-version" }
 cicerone = { group = "com.github.terrakok", name = "cicerone", version.ref = "cicerone_version" }
 datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore_version" }
+junit-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit-version" }
+junit-params = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junit-version" }
+junit-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit-version" }
+mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mokito-kotlin-version" }
+mockito-junit = { group = "org.mockito", name = "mockito-junit-jupiter", version.ref = "mokito-junit-version" }
+arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "arch-core-testing-version" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test-version" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine-version" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp-version" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-version" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp-version" }
+junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "junit5-plugin-version" }
 
 [bundles]
 lifecycle = ["lifecycle-viewmodel-ktx", "lifecycle-runtime-ktx"]
+unit-tests-deps = ["junit-api", "junit-params", "junit-engine", "mockito-kotlin", "mockito-junit", "arch-core-testing", "coroutines-test", "turbine"]

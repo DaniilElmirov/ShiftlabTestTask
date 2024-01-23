@@ -5,7 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
-import com.elmirov.shiftlabtesttask.data.user.UserScheme
+import androidx.datastore.preferences.core.stringPreferencesKey
 import com.elmirov.shiftlabtesttask.domain.entity.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -27,14 +27,19 @@ class LocalDataSourceImpl @Inject constructor(
 
     private companion object {
         private const val LOG_TAG = "LocalDataSourceImpl"
+
+        val NAME = stringPreferencesKey("name")
+        val SECOND_NAME = stringPreferencesKey("second_name")
+        val DATE_OF_BIRTH = stringPreferencesKey("date_of_birth")
+        val PASSWORD = stringPreferencesKey("password")
     }
 
     override suspend fun register(user: User) {
         dataStore.edit {
-            it[UserScheme.NAME] = user.name
-            it[UserScheme.SECOND_NAME] = user.secondName
-            it[UserScheme.DATE_OF_BIRTH] = user.dateOfBirth
-            it[UserScheme.PASSWORD] = user.password
+            it[NAME] = user.name
+            it[SECOND_NAME] = user.secondName
+            it[DATE_OF_BIRTH] = user.dateOfBirth
+            it[PASSWORD] = user.password
         }
     }
 
@@ -47,12 +52,12 @@ class LocalDataSourceImpl @Inject constructor(
                 throw it
             }
         }.map {
-            it[UserScheme.NAME]!! //Есть проверка на авторизацию
+            it[NAME]!! //Есть проверка на авторизацию
         }
 
     override fun isAuthorized(): Flow<Boolean> =
         dataStore.data.map {
-            it[UserScheme.NAME] != null
+            it[NAME] != null
         }
 }
 

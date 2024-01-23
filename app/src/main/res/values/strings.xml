@@ -14,5 +14,5 @@
     <string name="date_of_birth_help">Дата формата dd.mm.yyyy</string>
     <string name="password_help">Минимум 1 цифра, 1 буква каждого регистра.\nБез пробелов</string>
     <string name="repeated_password_help">Пароли должны совпадать</string>
-    <string name="future_date">Дата еще не наступила</string>
+    <string name="future_date_help">Дата еще не наступила</string>
 </resources>

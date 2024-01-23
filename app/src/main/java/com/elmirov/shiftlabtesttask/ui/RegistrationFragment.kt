@@ -19,6 +19,7 @@ import com.elmirov.shiftlabtesttask.utill.collectLifecycleFlow
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -167,53 +168,52 @@ class RegistrationFragment : Fragment() {
 
             when (type) {
                 ErrorType.NameLength -> {
-                    name.error = getString(R.string.name_help)
-                    secondName.error = null
-                    dateOfBirth.error = null
-                    password.error = null
-                    repeatedPassword.error = null
+                    val message = getString(R.string.name_help)
+                    setErrorMessageTo(name, message)
                 }
 
                 ErrorType.SecondNameLength -> {
-                    name.error = null
-                    secondName.error = getString(R.string.second_name_help)
-                    dateOfBirth.error = null
-                    binding.password.error = null
-                    binding.repeatedPassword.error = null
+                    val message = getString(R.string.second_name_help)
+                    setErrorMessageTo(secondName, message)
                 }
 
                 ErrorType.DateWrongFormat -> {
-                    name.error = null
-                    secondName.error = null
-                    dateOfBirth.error = getString(R.string.date_of_birth_help)
-                    password.error = null
-                    repeatedPassword.error = null
+                    val message = getString(R.string.date_of_birth_help)
+                    setErrorMessageTo(dateOfBirth, message)
                 }
 
                 ErrorType.FutureDate -> {
-                    name.error = null
-                    secondName.error = null
-                    dateOfBirth.error = getString(R.string.future_date)
-                    password.error = null
-                    repeatedPassword.error = null
+                    val message = getString(R.string.future_date_help)
+                    setErrorMessageTo(dateOfBirth, message)
                 }
 
                 ErrorType.SimplePassword -> {
-                    name.error = null
-                    secondName.error = null
-                    dateOfBirth.error = null
-                    password.error = getString(R.string.password_help)
-                    repeatedPassword.error = null
+                    val message = getString(R.string.password_help)
+                    setErrorMessageTo(password, message)
                 }
 
                 ErrorType.NoMatchPassword -> {
-                    name.error = null
-                    secondName.error = null
-                    dateOfBirth.error = null
-                    password.error = null
-                    repeatedPassword.error = getString(R.string.repeated_password_help)
+                    val message = getString(R.string.repeated_password_help)
+                    setErrorMessageTo(repeatedPassword, message)
                 }
             }
+        }
+    }
+
+    private fun setErrorMessageTo(to: TextInputLayout, message: String) {
+        val textInputLayouts = arrayOf(
+            binding.name,
+            binding.secondName,
+            binding.password,
+            binding.repeatedPassword,
+            binding.dateOfBirth
+        )
+
+        textInputLayouts.forEach {
+            if (it == to)
+                it.error = message
+            else
+                it.error = null
         }
     }
 }

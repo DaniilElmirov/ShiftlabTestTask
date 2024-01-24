@@ -27,6 +27,7 @@ class LocalDataSourceImpl @Inject constructor(
 
     private companion object {
         private const val LOG_TAG = "LocalDataSourceImpl"
+        private const val STUB = "STUB)"
 
         val NAME = stringPreferencesKey("name")
         val SECOND_NAME = stringPreferencesKey("second_name")
@@ -52,7 +53,7 @@ class LocalDataSourceImpl @Inject constructor(
                 throw it
             }
         }.map {
-            it[NAME]!! //Есть проверка на авторизацию
+            it[NAME] ?: STUB
         }
 
     override fun isAuthorized(): Flow<Boolean> =

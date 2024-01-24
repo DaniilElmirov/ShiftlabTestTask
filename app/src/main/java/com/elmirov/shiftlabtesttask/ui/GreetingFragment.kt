@@ -56,12 +56,19 @@ class GreetingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setOnClickListeners()
         applyState()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun setOnClickListeners() {
+        binding.greeting.setOnClickListener {
+            viewModel.greeting()
+        }
     }
 
     private fun applyState() {
@@ -88,11 +95,6 @@ class GreetingFragment : Fragment() {
     }
 
     private fun applyInitialState() {
-        with(binding) {
-            greeting.isVisible = true
-            greeting.setOnClickListener {
-                viewModel.greeting()
-            }
-        }
+        binding.greeting.isVisible = true
     }
 }

@@ -17,6 +17,10 @@ arch-core-testing-version = "2.2.0"
 coroutines-test-version = "1.7.0"
 turbine-version = "1.0.0"
 junit5-plugin-version = "1.8.2.1"
+kaspresso-version = "1.5.1"
+orchestrator-version = "1.4.2"
+junit-ktx-version = "1.1.5"
+fragment-testing-version = "1.6.2"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx-version" }
@@ -37,6 +41,10 @@ mockito-junit = { group = "org.mockito", name = "mockito-junit-jupiter", version
 arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "arch-core-testing-version" }
 coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test-version" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine-version" }
+kaspresso = { group = "com.kaspersky.android-components", name = "kaspresso", version.ref = "kaspresso-version" }
+orchestrator = { group = "androidx.test", name = "orchestrator", version.ref = "orchestrator-version" }
+junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junit-ktx-version" }
+fragment-testing = { group = "androidx.fragment", name = "fragment-testing", version.ref = "fragment-testing-version" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp-version" }
@@ -47,3 +55,4 @@ junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "junit5-plugin-v
 [bundles]
 lifecycle = ["lifecycle-viewmodel-ktx", "lifecycle-runtime-ktx"]
 unit-tests-deps = ["junit-api", "junit-params", "junit-engine", "mockito-kotlin", "mockito-junit", "arch-core-testing", "coroutines-test", "turbine"]
+ui-tests-deps = ["kaspresso", "junit-ktx"]

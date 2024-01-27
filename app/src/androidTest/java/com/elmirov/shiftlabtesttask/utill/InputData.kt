@@ -1,4 +1,4 @@
-package com.elmirov.shiftlabtesttask.util
+package com.elmirov.shiftlabtesttask.utill
 
 object InputData {
 

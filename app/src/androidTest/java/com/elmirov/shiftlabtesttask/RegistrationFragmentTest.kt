@@ -4,7 +4,7 @@ import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.action.GeneralLocation
 import com.elmirov.shiftlabtesttask.screen.RegistrationScreen
 import com.elmirov.shiftlabtesttask.ui.RegistrationFragment
-import com.elmirov.shiftlabtesttask.util.InputData
+import com.elmirov.shiftlabtesttask.utill.InputData
 import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
 import org.junit.Before
 import org.junit.Test

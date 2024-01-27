@@ -1,8 +1,10 @@
 package com.elmirov.shiftlabtesttask
 
 import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.test.espresso.action.GeneralLocation
 import com.elmirov.shiftlabtesttask.screen.RegistrationScreen
 import com.elmirov.shiftlabtesttask.ui.RegistrationFragment
+import com.elmirov.shiftlabtesttask.util.InputData
 import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
 import org.junit.Before
 import org.junit.Test
@@ -93,6 +95,198 @@ class RegistrationFragmentTest : TestCase() {
                         hasEmptyText()
                     }
                 }
+            }
+        }
+    }
+
+    @Test
+    fun setRightUserInputAllowRegistration() = run {
+        RegistrationScreen {
+            step("Set name") {
+                name.edit {
+                    replaceText(InputData.rightName)
+                    hasText(InputData.rightName)
+                }
+            }
+
+            step("Set second name") {
+                secondName.edit {
+                    replaceText(InputData.rightSecondName)
+                    hasText(InputData.rightSecondName)
+                }
+            }
+
+            step("Set date of birth") {
+                dateOfBirth.edit {
+                    replaceText(InputData.rightDateOfBirth)
+                    hasText(InputData.rightDateOfBirth)
+                }
+            }
+
+            step("Set password") {
+                password.edit {
+                    replaceText(InputData.rightPassword)
+                    hasText(InputData.rightPassword)
+                }
+            }
+
+            step("Set repeated password") {
+                repeatedPassword.edit {
+                    replaceText(InputData.rightRepeatedPassword)
+                    hasText(InputData.rightRepeatedPassword)
+                }
+            }
+
+            step("Allow registration") {
+                registration {
+                    isEnabled()
+                    hasText(R.string.registration)
+                }
+            }
+        }
+    }
+
+    @Test
+    fun checkNameErrorMessage() = run {
+        RegistrationScreen {
+            step("Set wrong name") {
+                name.edit.replaceText(InputData.wrongName)
+            }
+
+            step("Set right data in other edits") {
+                secondName.edit.replaceText(InputData.rightSecondName)
+                dateOfBirth.edit.replaceText(InputData.rightDateOfBirth)
+                password.edit.replaceText(InputData.rightPassword)
+                repeatedPassword.edit.replaceText(InputData.rightRepeatedPassword)
+            }
+
+            step("Start registration") {
+                registration.click()
+            }
+
+            step("Name has error") {
+                name.hasError(R.string.name_help)
+            }
+        }
+    }
+
+    @Test
+    fun checkSecondNameErrorMessage() = run {
+        RegistrationScreen {
+            step("Set wrong second name") {
+                secondName.edit.replaceText(InputData.wrongSecondName)
+            }
+
+            step("Set right data in other edits") {
+                name.edit.replaceText(InputData.rightName)
+                dateOfBirth.edit.replaceText(InputData.rightDateOfBirth)
+                password.edit.replaceText(InputData.rightPassword)
+                repeatedPassword.edit.replaceText(InputData.rightRepeatedPassword)
+            }
+
+            step("Start registration") {
+                registration.click()
+            }
+
+            step("Second name has error") {
+                secondName.hasError(R.string.second_name_help)
+            }
+        }
+    }
+
+    @Test
+    fun checkDateOfBirthErrorMessage() = run {
+        RegistrationScreen {
+            step("Set wrong date of birth: format") {
+                dateOfBirth.edit.replaceText(InputData.wrongDateOfBirthFormat)
+            }
+
+            step("Set right data in other edits") {
+                name.edit.replaceText(InputData.rightName)
+                secondName.edit.replaceText(InputData.rightSecondName)
+                password.edit.replaceText(InputData.rightPassword)
+                repeatedPassword.edit.replaceText(InputData.rightRepeatedPassword)
+            }
+
+            step("Start registration") {
+                registration.click()
+            }
+
+            step("Date of birth has format error") {
+                dateOfBirth.hasError(R.string.date_of_birth_help)
+            }
+
+            step("Set wrong date of birth: future date") {
+                dateOfBirth.edit.replaceText(InputData.wrongDateOfBirthFuture)
+            }
+
+            step("Start registration") {
+                registration.click()
+            }
+
+            step("Date of birth has future error") {
+                dateOfBirth.hasError(R.string.future_date_help)
+            }
+        }
+    }
+
+    @Test
+    fun checkPasswordErrorMessage() = run {
+        RegistrationScreen {
+            step("Set wrong password") {
+                password.edit.replaceText(InputData.wrongPassword)
+            }
+
+            step("Set right data in other edits") {
+                name.edit.replaceText(InputData.rightName)
+                secondName.edit.replaceText(InputData.rightSecondName)
+                dateOfBirth.edit.replaceText(InputData.rightDateOfBirth)
+                repeatedPassword.edit.replaceText(InputData.rightRepeatedPassword)
+            }
+
+            step("Start registration") {
+                registration.click()
+            }
+
+            step("Password has error") {
+                password.hasError(R.string.password_help)
+            }
+        }
+    }
+
+    @Test
+    fun checkRepeatedPasswordErrorMessage() = run {
+        RegistrationScreen {
+            step("Set wrong repeated password") {
+                repeatedPassword.edit.replaceText(InputData.wrongRepeatedPassword)
+            }
+
+            step("Set right data in other edits") {
+                name.edit.replaceText(InputData.rightName)
+                secondName.edit.replaceText(InputData.rightSecondName)
+                dateOfBirth.edit.replaceText(InputData.rightDateOfBirth)
+                password.edit.replaceText(InputData.rightPassword)
+            }
+
+            step("Start registration") {
+                registration.click()
+            }
+
+            step("Repeated password has error") {
+                repeatedPassword.hasError(R.string.repeated_password_help)
+            }
+        }
+    }
+
+    @Test
+    fun dateIconClickOpenDatePicker() = run {
+        RegistrationScreen {
+            step("On date icon click") {
+                dateOfBirth.click(GeneralLocation.CENTER_RIGHT)
+            }
+
+            step("Date picker visible") {
+                datePicker.isVisible()
             }
         }
     }

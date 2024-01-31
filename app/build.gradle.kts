@@ -56,5 +56,8 @@ dependencies {
 
     implementation(libs.bundles.lifecycle)
 
+    androidTestUtil(libs.orchestrator)
+    debugImplementation (libs.fragment.testing)
     testImplementation(libs.bundles.unit.tests.deps)
+    androidTestImplementation(libs.bundles.ui.tests.deps)
 }

@@ -290,4 +290,33 @@ class RegistrationFragmentTest : TestCase() {
             }
         }
     }
+
+    @Test
+    fun afterRegistrationShowOnlyProgressBar() = run {
+        RegistrationScreen {
+            step("Before registration progress bar gone") {
+                progressBar.isGone()
+            }
+
+            step("Set right data into fields")  {
+                name.edit.replaceText(InputData.rightName)
+                secondName.edit.replaceText(InputData.rightSecondName)
+                dateOfBirth.edit.replaceText(InputData.rightDateOfBirth)
+                password.edit.replaceText(InputData.rightPassword)
+                repeatedPassword.edit.replaceText(InputData.rightRepeatedPassword)
+            }
+
+            step("Registration") {
+                registration.click()
+            }
+
+            step("Content gone") {
+                content.isGone()
+            }
+
+            step("Progress bar visible") {
+                progressBar.isVisible()
+            }
+        }
+    }
 }

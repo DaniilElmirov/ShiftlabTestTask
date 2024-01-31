@@ -5,6 +5,8 @@ import com.elmirov.shiftlabtesttask.ui.RegistrationFragment
 import com.kaspersky.kaspresso.screens.KScreen
 import io.github.kakaocup.kakao.edit.KTextInputLayout
 import io.github.kakaocup.kakao.picker.date.KDatePicker
+import io.github.kakaocup.kakao.progress.KProgressBar
+import io.github.kakaocup.kakao.scroll.KScrollView
 import io.github.kakaocup.kakao.text.KButton
 import io.github.kakaocup.kakao.toolbar.KToolbar
 
@@ -27,4 +29,8 @@ object RegistrationScreen : KScreen<RegistrationScreen>() {
     val repeatedPassword = KTextInputLayout { withId(R.id.repeated_password) }
 
     val registration = KButton { withId(R.id.registration) }
+
+    val content = KScrollView { withId(R.id.content) }
+
+    val progressBar = KProgressBar { withId(R.id.progress_bar) }
 }
